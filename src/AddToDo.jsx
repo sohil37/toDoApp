@@ -5,7 +5,7 @@ class AddToDo extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { formInput: "sohil" };
+    this.state = { formInput: "" };
   }
 
   changeFormInput = (e) => {
