@@ -1,5 +1,7 @@
 import { Component } from "react";
 import "./stylesheets/AddToDo.css";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 class AddToDo extends Component {
   constructor(props) {
@@ -25,12 +27,15 @@ class AddToDo extends Component {
   render = () => {
     return (
       <form className="AddToDo" onSubmit={this.submitForm}>
-        <input
+        <TextField
           type="text"
           value={this.state.formInput}
           onChange={this.changeFormInput}
+          placeholder="Add todo here"
         />
-        <input type="submit" value="Add To-Do" />
+        <Button type="submit" variant="outlined">
+          Add To-Do
+        </Button>
       </form>
     );
   };
