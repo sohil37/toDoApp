@@ -1,11 +1,16 @@
 import { Component } from "react";
 import "./stylesheets/ShowAllToDo.css";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import { Paper, Box } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
+import {
+  Paper,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Divider,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import EditDialog from "./EditDialog";
@@ -47,13 +52,14 @@ class ShowAllToDo extends Component {
     return (
       <>
         <Paper className="ShowAllToDo">
-          <List>
-            {this.props.toDos.map((elem, index) => {
-              return (
-                <Box key={index}>
-                  <ListItem
-                    secondaryAction={
-                      <>
+          {this.props.toDos.length > 0 ? (
+            <List>
+              {this.props.toDos.map((elem, index) => {
+                return (
+                  <Box key={index}>
+                    <ListItem>
+                      <ListItemText>{elem}</ListItemText>
+                      <ListItemIcon>
                         <IconButton
                           edge="end"
                           aria-label="delete"
@@ -70,15 +76,18 @@ class ShowAllToDo extends Component {
                           }}>
                           <DeleteIcon />
                         </IconButton>
-                      </>
-                    }>
-                    <ListItemText>{elem}</ListItemText>
-                  </ListItem>
-                  <Divider />
-                </Box>
-              );
-            })}
-          </List>
+                      </ListItemIcon>
+                    </ListItem>
+                    <Divider />
+                  </Box>
+                );
+              })}
+            </List>
+          ) : (
+            <Box className="no-to-do-msg">
+              <Typography paragraph={true}>No To-Do to display</Typography>;
+            </Box>
+          )}
         </Paper>
         {this.state.editDialogProps.openDialog === true ? (
           <EditDialog

@@ -1,9 +1,13 @@
 import React, { Component } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import DialogActions from "@mui/material/DialogActions";
+import {
+  Dialog,
+  DialogContent,
+  TextField,
+  Button,
+  DialogActions,
+} from "@mui/material";
+import "./stylesheets/EditDialog.css";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 class EditDialog extends Component {
   constructor(props) {
@@ -39,16 +43,20 @@ class EditDialog extends Component {
   // Function to render EditDialog Component
   render() {
     return (
-      <>
+      <StyledEngineProvider>
         <Dialog
           open={this.props.editDialogProps.openDialog}
-          disableEscapeKeyDown>
+          disableEscapeKeyDown
+          maxWidth={false}
+          className="EditDialog">
           <DialogContent>
             <TextField
               type="text"
               value={this.state.editedToDo}
               onChange={this.handleEdit}
               fullWidth
+              multiline
+              maxRows={4}
             />
           </DialogContent>
           <DialogActions>
@@ -64,7 +72,7 @@ class EditDialog extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-      </>
+      </StyledEngineProvider>
     );
   }
 }

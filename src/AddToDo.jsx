@@ -1,7 +1,7 @@
 import { Component } from "react";
 import "./stylesheets/AddToDo.css";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { TextField, Button } from "@mui/material";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 class AddToDo extends Component {
   constructor(props) {
@@ -30,17 +30,22 @@ class AddToDo extends Component {
   // Function to render AddToDo Component
   render = () => {
     return (
-      <form className="AddToDo" onSubmit={this.submitForm}>
-        <TextField
-          type="text"
-          value={this.state.formInput}
-          onChange={this.handleFormInput}
-          placeholder="Add todo here"
-        />
-        <Button type="submit" variant="outlined">
-          Add To-Do
-        </Button>
-      </form>
+      <StyledEngineProvider>
+        <form className="AddToDo" onSubmit={this.submitForm}>
+          <TextField
+            type="text"
+            value={this.state.formInput}
+            onChange={this.handleFormInput}
+            placeholder="Add todo here"
+            className="todo-textfield"
+            multiline
+            maxRows={4}
+          />
+          <Button type="submit" variant="outlined">
+            Add To-Do
+          </Button>
+        </form>
+      </StyledEngineProvider>
     );
   };
 }
