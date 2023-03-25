@@ -1,29 +1,28 @@
 import { Component } from "react";
 import AddToDo from "./AddToDo";
-import EditDialog from "./EditDialog";
 import ShowAllToDo from "./ShowAllToDo";
 import "./stylesheets/App.css";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    let toDo;
+
+    // Initialize App Component state and browser local storage
     let localStorageToDos = JSON.parse(window.localStorage.getItem("toDo"));
+    let toDo;
+
     if (localStorageToDos) {
       toDo = localStorageToDos;
     } else {
       toDo = [];
       window.localStorage.setItem("toDo", JSON.stringify(toDo));
     }
-    EditDialog;
 
-    this.state = {
-      toDo,
-      editDialog: { openDialog: false, index: null, toDo: null },
-    };
+    this.state = { toDo };
   }
 
-  addToToDo = (newToDo) => {
+  // Function to add todo to App Component state and browser local storage
+  addToDo = (newToDo) => {
     this.setState(
       (oldState) => {
         let newArr = [...oldState.toDo, newToDo];
@@ -35,36 +34,29 @@ class App extends Component {
     );
   };
 
-  openEditToDo = (index) => {
-    this.setState(() => {
-      return {
-        editDialog: { openDialog: true, index, toDo: this.state.toDo[index] },
-      };
-    });
+  // Function to edit todo in App Component state and browser local storage
+  editToDo = (editedToDo, toDoIndex) => {
+    try {
+      this.setState(
+        (oldState) => {
+          let newArr = [...oldState.toDo];
+          newArr.splice(toDoIndex, 1, editedToDo);
+          return {
+            toDo: newArr,
+          };
+        },
+        () => {
+          window.localStorage.setItem("toDo", JSON.stringify(this.state.toDo));
+        }
+      );
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
   };
 
-  closeEditDialog = () => {
-    this.setState(() => {
-      return { editDialog: { openDialog: false, index: null, toDo: null } };
-    });
-  };
-
-  updateToDo = (editedToDo, toDoIndex) => {
-    this.setState(
-      (oldState) => {
-        let newArr = [...oldState.toDo];
-        newArr.splice(toDoIndex, 1, editedToDo);
-        return {
-          toDo: newArr,
-          editDialog: { openDialog: false, index: null, toDo: null },
-        };
-      },
-      () => {
-        window.localStorage.setItem("toDo", JSON.stringify(this.state.toDo));
-      }
-    );
-  };
-
+  // Function to remove todo from App Component state and browser local storage
   removeToDo = (index) => {
     this.setState(
       (oldState) => {
@@ -78,24 +70,16 @@ class App extends Component {
     );
   };
 
+  // Method to render App Component
   render = () => {
     return (
       <div className="App">
-        <AddToDo addToDoFunction={this.addToToDo} />
+        <AddToDo addToDoFunction={this.addToDo} />
         <ShowAllToDo
           toDos={this.state.toDo}
-          removeToDo={this.removeToDo}
-          openEditToDo={this.openEditToDo}
+          editToDoFunction={this.editToDo}
+          removeToDoFunction={this.removeToDo}
         />
-        {this.state.editDialog.openDialog === true ? (
-          <EditDialog
-            closeEditDialog={this.closeEditDialog}
-            editDialog={this.state.editDialog}
-            updateToDo={this.updateToDo}
-          />
-        ) : (
-          <></>
-        )}
       </div>
     );
   };

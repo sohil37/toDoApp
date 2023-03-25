@@ -7,15 +7,18 @@ class AddToDo extends Component {
   constructor(props) {
     super(props);
 
+    // Initialize AddToDo Component state
     this.state = { formInput: "" };
   }
 
-  changeFormInput = (e) => {
+  // Function to handle change in form input
+  handleFormInput = (e) => {
     this.setState(() => {
       return { formInput: e.target.value };
     });
   };
 
+  // Function to submit form and Add todo in the state of App Component
   submitForm = (e) => {
     e.preventDefault();
     this.props.addToDoFunction(this.state.formInput);
@@ -24,13 +27,14 @@ class AddToDo extends Component {
     });
   };
 
+  // Function to render AddToDo Component
   render = () => {
     return (
       <form className="AddToDo" onSubmit={this.submitForm}>
         <TextField
           type="text"
           value={this.state.formInput}
-          onChange={this.changeFormInput}
+          onChange={this.handleFormInput}
           placeholder="Add todo here"
         />
         <Button type="submit" variant="outlined">
